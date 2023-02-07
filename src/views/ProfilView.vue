@@ -45,7 +45,7 @@
           <CardCatalogue />
           <button class=" bg-white p-6 rounded-lg shadow-lg" type="add" @click="addPlant">
             <img src="../assets/images/add.png" alt="button ajout" border="0">
-            // TODO: Effacer logo lorsque camera est active
+            <!-- TODO: Effacer logo lorsque camera est active -->
 
             <div id="app" class="web-camera-container">
               <div class="camera-button">
@@ -83,7 +83,7 @@
                 <a id="downloadPhoto" download="my-photo.jpg" class="button" role="button" @click="downloadImage">
                   Download
                 </a>
-                // TODO: push photo en back !
+                <!-- TODO: push photo en back ! -->
               </div>
             </div>
           </button>
