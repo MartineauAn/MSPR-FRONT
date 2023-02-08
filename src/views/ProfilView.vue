@@ -43,11 +43,10 @@
           <CardCatalogue />
           <CardCatalogue />
           <CardCatalogue />
-          <button class=" bg-white p-6 rounded-lg shadow-lg" type="add" @click="addPlant">
-            <img src="../assets/images/add.png" alt="button ajout" border="0">
-            <!-- TODO: Effacer logo lorsque camera est active -->
-
-            <div id="app" class="web-camera-container">
+          <div class="bg-white p-6 rounded-lg shadow-lg" type="add">
+            <img v-if="disableImg === false" src="../assets/images/add.png" alt="button ajout" border="0"
+              @click="toggleCamera">
+            <div id="app" class="">
               <div class="camera-button">
                 <button type="button" class="button is-rounded"
                   :class="{ 'is-primary': !isCameraOpen, 'is-danger': isCameraOpen }" @click="toggleCamera">
@@ -65,28 +64,25 @@
               </div>
 
               <div v-if="isCameraOpen" v-show="!isLoading" class="camera-box" :class="{ 'flash': isShotPhoto }">
-
                 <div class="camera-shutter" :class="{ 'flash': isShotPhoto }"></div>
-
                 <video v-show="!isPhotoTaken" ref="camera" :width="450" :height="337.5" autoplay></video>
-
                 <canvas v-show="isPhotoTaken" id="photoTaken" ref="canvas" :width="450" :height="337.5"></canvas>
               </div>
 
               <div v-if="isCameraOpen && !isLoading" class="camera-shoot">
-                <button type="button" class="button" @click="takePhoto">
+                <button type="button" @click="takePhoto">
                   <img src="https://img.icons8.com/material-outlined/50/000000/camera--v2.png">
                 </button>
               </div>
 
               <div v-if="isPhotoTaken && isCameraOpen" class="camera-download">
-                <a id="downloadPhoto" download="my-photo.jpg" class="button" role="button" @click="downloadImage">
-                  Download
-                </a>
+                <button type="button" @click="handleImage">
+                  <span class="font font-p">Envoyer photo</span>
+                </button>
                 <!-- TODO: push photo en back ! -->
               </div>
             </div>
-          </button>
+          </div>
 
 
         </div>
@@ -98,8 +94,8 @@
 
 <script>
 
-// import axios from 'axios';
-import CardCatalogue from '@/components/CardCatalogue.vue'
+import axios from 'axios';
+import CardCatalogue from '@/components/CardCatalogue.vue';
 
 export default {
   name: "ProfilView",
@@ -127,17 +123,12 @@ export default {
         start_date: '',
         end_date: ''
       },
-      plantCatalogue: {
-        libelle: '',
-        type: '',
-        photo: '',
-        advice: ''
-      },
       isCameraOpen: false,
       isPhotoTaken: false,
       isShotPhoto: false,
       isLoading: false,
-      link: '#',
+      disableImg: false,
+      imageStandby: '',
     }
   },
   async mounted() { },
@@ -148,9 +139,11 @@ export default {
         this.isCameraOpen = false;
         this.isPhotoTaken = false;
         this.isShotPhoto = false;
+        this.disableImg = false;
         this.stopCameraStream();
       } else {
         this.isCameraOpen = true;
+        this.disableImg = true;
         this.createCameraElement();
       }
     },
@@ -202,12 +195,29 @@ export default {
       context.drawImage(this.$refs.camera, 0, 0, 450, 337.5);
     },
 
-    downloadImage() {
+    // TODO: faire méthode pour récupérer la photo et l'envoyer au back
+    handleImage() {
       const download = document.getElementById("downloadPhoto");
       const canvas = document.getElementById("photoTaken").toDataURL("image/jpeg")
         .replace("image/jpeg", "image/octet-stream");
       download.setAttribute("href", canvas);
-    }
+      this.createBase64Image(canvas);
+    },
+    createBase64Image(file) {
+      const read = new FileReader();
+      read.onload = (e) => {
+        this.imageStandby = e.target.result;
+      };
+      read.readAsBinaryString(file);
+    },
+    async sendImage() {
+      const image = this.imageStandby;
+      try {
+        await axios.post(`${window.location.origin}/profil`, image)
+      } catch (error) {
+        console.log("Erreur dans l'enregistrement d'une image", error)
+      }
+    },
   }
 }
 
@@ -228,43 +238,118 @@ export default {
   font-size: x-large;
 }
 
-#background {
+body {
+  display: flex;
+  justify-content: center;
+}
+
+.camera-button.web-camera-container {
+  margin-bottom: 2rem;
+}
+
+.camera-shutter.camera-box.web-camera-container {
+  opacity: 0;
+  width: 450px;
+  height: 337.5px;
+  background-color: #fff;
+  position: absolute;
+
+
+}
+
+.flash.camera-shutter.camera-box.web-camera-container {
+  opacity: 1;
+}
+
+.camera-shoot.web-camera-container {
+  margin: 1rem 0;
+}
+
+button.camera-shoot.web-camera-container {
+  height: 60px;
+  width: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 100%;
+}
+
+img.camera-shoot.web-camera-container {
+  height: 35px;
+  object-fit: cover;
+}
+
+.camera-loading.web-camera-container {
+  overflow: hidden;
+  height: 100%;
+  position: absolute;
   width: 100%;
-  height: 35%;
-  box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+  min-height: 150px;
+  margin: 3rem 0 0 -1.2rem;
+
+
 }
 
-.master-tuille {
-  justify-content: space-evenly;
+ul.camera-loading.web-camera-container {
+  height: 100%;
+  position: absolute;
+  width: 100%;
+  z-index: 999999;
+  margin: 0;
 }
 
-.tuille {
-  border-radius: 25px;
-  box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+.loader-circle.camera-loading.web-camera-container {
+  display: block;
+  height: 14px;
+  margin: 0 auto;
+  top: 50%;
+  left: 100%;
+  transform: translateY(-50%);
+  transform: translateX(-50%);
+  position: absolute;
+  width: 100%;
+  padding: 0;
+
+
 }
 
-.tuille-small img {
-  max-height: 50%;
-  padding: 2%;
+li.loader-circle.camera-loading.web-camera-container {
+  display: block;
+  float: left;
+  width: 10px;
+  height: 10px;
+  line-height: 10px;
+  padding: 0;
+  position: relative;
+  margin: 0 0 0 4px;
+  background: #999;
+  animation: preload 1s infinite;
+  top: -50%;
+  border-radius: 100%;
+
+
 }
 
-.tuille-small {
-  background-color: blanchedalmond;
+:nth-child(2).loader-circle.camera-loading {
+  animation-delay: .2s;
 }
 
-.tuille-meduim {
-  background-color: cadetblue;
-  padding: 3%;
-  height: fit-content;
+:nth-child(3).loader-circle.camera-loading {
+  animation-delay: .4s;
 }
 
-.tuille-plant {
-  max-height: 20%;
-  max-width: 15%;
-  background-color: rgb(246, 246, 248);
-}
+@keyframes preload {
+  0% {
+    opacity: 1
+  }
 
-.tuille-plant img {
-  padding: 20%;
+  50% {
+    opacity: .4
+  }
+
+  100% {
+    opacity: 1
+  }
+
 }
 </style>
