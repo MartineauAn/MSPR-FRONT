@@ -1,7 +1,6 @@
 <template>
   <div
-    style="
-      background: linear-gradient(
+    style=" background: linear-gradient(
         to right,
         rgb(226, 227, 221),
         rgb(212, 219, 212)
@@ -64,11 +63,9 @@
           gap-6
         "
       >
-        <CardCatalogue />
-        <CardCatalogue />
-        <CardCatalogue />
-        <CardCatalogue />
-        <CardCatalogue />
+      <div v-for="plantPost in plantPosts" v-bind:key="plantPost.id">
+        <CardCatalogue :plantPost="plantPost" />
+      </div>
       </div>
     </div>
   </div>
@@ -81,5 +78,17 @@ export default {
   components: {
     CardCatalogue,
   },
+  data(){
+    return {
+      plantPosts: [
+        {
+          id:1,publication_date:'', photo:'', title:'', description:'Ouais', surname:'', city:'', address:'', post_code:'', start_date:'', end_date:''
+        },
+        {
+          id:2,publication_date:'', photo:'', title:'', description:'Ouais', surname:'', city:'', address:'', post_code:'', start_date:'', end_date:''
+      }
+      ]
+    }
+  }
 };
 </script>

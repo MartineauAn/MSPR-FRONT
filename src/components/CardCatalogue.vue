@@ -7,11 +7,15 @@
     />
     <div class="pt-6">
       <p class="text-gray-600 text-base">
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam in
-        suscipit ante.
+        {{ plantPost.description }}
       </p>
     </div>
   </div>
 </template>
 <script>
+export default {
+    props: {
+        plantPost: null,
+    }
+}
 </script>
