@@ -38,11 +38,9 @@
       <div class="container mx-auto py-2 px-6 shadow-lg">
         <h2 class="font text-2xl font-bold mb-4">Mes plantes à garder</h2>
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 lg:px-44 lg:gap-x-24 lg:gap-y-10 gap-6">
-          <CardCatalogue />
-          <CardCatalogue />
-          <CardCatalogue />
-          <CardCatalogue />
-          <CardCatalogue />
+          <div v-for="plantPost in plantPosts" v-bind:key="plantPost.id">
+            <CardCatalogue :plantPost="plantPost" />
+          </div>
           <div class="bg-white p-6 rounded-lg shadow-lg" type="add">
             <img v-if="disableImg === false" src="../assets/images/add.png" alt="button ajout" border="0"
               @click="toggleCamera">
@@ -120,18 +118,20 @@ export default {
         type_user: 'Type d\'utilisateur',
         profile_photo: ''
       },
-      plantPost: {
+
+      plantPosts: [{
+        id: 1,
         publication_date: '',
         photo: '',
-        title: '',
-        description: '',
-        surname: '',
+        title: 'une tulipe',
+        description: 'a très soif',
+        surname: 'lili',
         city: '',
         address: '',
         post_code: '',
         start_date: '',
         end_date: ''
-      },
+      }],
       isCameraOpen: false,
       isPhotoTaken: false,
       isShotPhoto: false,
