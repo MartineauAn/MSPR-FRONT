@@ -76,10 +76,16 @@
               </div>
 
               <div v-if="isPhotoTaken && isCameraOpen" class="camera-download">
-                <button type="button" @click="handleImage">
-                  <span class="font font-p">Envoyer photo</span>
-                </button>
+                <!--
+
+                  <button type="button" @click="handleImage">
+                    <span class="font font-p">Envoyer photo</span>
+                  </button>
+                -->
                 <!-- TODO: push photo en back ! -->
+
+                <Modal />
+
               </div>
             </div>
           </div>
@@ -95,16 +101,19 @@
 <script>
 
 import axios from 'axios';
-import CardCatalogue from '@/components/CardCatalogue.vue';
+import CardCatalogue from '../components/CardCatalogue.vue';
+import Modal from '../components/CardModal.vue'
 
 export default {
   name: "ProfilView",
   components: {
-    CardCatalogue
+    CardCatalogue,
+    Modal
   },
   data() {
     return {
       user: {
+        id: 1,
         lastname: 'Nom',
         firstname: 'Prenom',
         email: 'votre-email@email.fr',
@@ -209,6 +218,7 @@ export default {
         this.imageStandby = e.target.result;
       };
       read.readAsBinaryString(file);
+      this.handleModal();
     },
     async sendImage() {
       const image = this.imageStandby;
