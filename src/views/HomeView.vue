@@ -1,6 +1,7 @@
 <template>
   <div
-    style=" background: linear-gradient(
+    style="
+      background: linear-gradient(
         to right,
         rgb(226, 227, 221),
         rgb(212, 219, 212)
@@ -28,18 +29,17 @@
       <div class="grid grid-cols-2">
         <div class="flex justify-center items-center content-center ml-6 mr-6">
           <div>
-            <h3 class="text-2xl font-semibold">About us</h3>
-            <p class="text-xl font-medium">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed elit
-              dolor, sagittis eu libero vitae, scelerisque accumsan libero.
-              Morbi ultricies eleifend lorem eu porta. Nullam tincidunt
-              tincidunt magna, vitae lobortis turpis vestibulum in. Quisque
-              pharetra luctus luctus. Sed euismod erat tellus, non dapibus nunc
-              posuere sodales. Aenean ut dapibus neque. Cras in libero vitae
-              mauris convallis feugiat. Etiam imperdiet rutrum nisi, blandit
-              vehicula dolor convallis nec. In at volutpat erat. Etiam luctus
-              urna eget leo condimentum malesuada. Aenean hendrerit augue ut
-              pretium ultricies.
+            <h3 class="text-3xl font-semibold">A propos de nous</h3>
+            <p class="text-2xl font-medium">
+              Nous sommes “A’rosa-je” nous aidons les particuliers à prendre soin de
+              leurs plantes. Fondée en 1984 nous avons tout d’abord été composée
+              d’une petite équipe de botanistes dans une seule ville et nous sommes
+              maintenant composée de plus de 1500 botanistes répartis sur toute
+              la France qui rendent service aux propriétaires de plantes de deux
+              façons :<br> - En allant garder leurs plantes lorsque les
+              propriétaires sont absents <br> - En prodiguant des conseils
+              d’entretien afin que les propriétaires s’occupent de mieux en
+              mieux de leurs plantes.
             </p>
           </div>
         </div>
@@ -63,9 +63,9 @@
           gap-6
         "
       >
-      <div v-for="plantPost in plantPosts" v-bind:key="plantPost.id">
-        <CardCatalogue :plantPost="plantPost" />
-      </div>
+        <div v-for="plantPost in plantPosts" v-bind:key="plantPost.id">
+          <CardCatalogue :plantPost="plantPost" />
+        </div>
       </div>
     </div>
   </div>
@@ -73,22 +73,36 @@
 
 <script>
 import CardCatalogue from "@/components/CardCatalogue.vue";
-
+import axios from "axios";
+// /api/planPosts
 export default {
   components: {
     CardCatalogue,
   },
-  data(){
+  created: function () {
+    this.fetchPlantPosts();
+  },
+  data() {
     return {
-      plantPosts: [
-        {
-          id:1,publication_date:'', photo:'', title:'', description:'Ouais', surname:'', city:'', address:'', post_code:'', start_date:'', end_date:''
-        },
-        {
-          id:2,publication_date:'', photo:'', title:'', description:'Ouais', surname:'', city:'', address:'', post_code:'', start_date:'', end_date:''
+      plantPosts: [],
+    };
+  },
+  methods: {
+    fetchPlantPosts: async function () {
+      try {
+        const response = await axios.get(
+          "http://localhost:8080/api/planPosts",
+          {
+            headers: {
+              "Access-Control-Allow-Origin": "*",
+            },
+          }
+        );
+        this.plantPosts = response.data;
+      } catch (error) {
+        console.log(error);
       }
-      ]
-    }
-  }
+    },
+  },
 };
 </script>
