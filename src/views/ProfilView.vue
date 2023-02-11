@@ -19,12 +19,12 @@
           <div class="container mx-auto">
             <div class="grid grid-cols-2 gap-6">
               <div class="bg-white p-6 rounded-lg shadow-lg">
-                <img src="@/assets/images/plante3.jpg" alt="Example image 1" class="h-56 w-80 object-cover" />
+                <img :src=user.profile_photo alt="Example image 1" class="h-56 w-80 object-cover" />
               </div>
               <div class="bg-white p-6 rounded-lg shadow-lg">
                 <br>
-                <p class="text-gray-600 text-base font-p font">{{ user.firstname }}</p>
                 <p class="text-gray-600 text-base font-p font">{{ user.lastname }}</p>
+                <p class="text-gray-600 text-base font-p font">{{ user.firstname }}</p>
                 <p class="text-gray-600 text-base font-p font">{{ user.email }}</p>
                 <p class="text-gray-600 text-base font-p font">{{ user.type_user }}</p>
               </div>
@@ -82,7 +82,92 @@
                 -->
                 <!-- TODO: push photo en back ! -->
 
-                <Modal />
+                <Modal>
+                  <div class="relative p-6 flex-auto">
+                    <p class="my-4 text-slate-500 text-lg leading-relaxed">
+                      Afin de procéder à l'enregistrement de votre demande de gardiennage de plante, merci de remplir
+                      les informations ci-dessous.
+                    </p>
+                    <form class="space-y-6" action="#">
+                      <div>
+                        <label for="title" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                          Titre de l'annonce</label>
+                        <input type="title" name="title" id="title" v-model="plantPosts.title"
+                          class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                          required>
+                      </div>
+                      <div>
+                        <label for="description"
+                          class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Description de
+                          l'annonce</label>
+                        <input type="description" name="description" id="description" v-model="plantPosts.description"
+                          class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                          required>
+                      </div>
+                      <div>
+                        <label for="surname" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Le
+                          petit nom
+                          de votre plante</label>
+                        <input type="surname" name="surname" id="surname" v-model="plantPosts.surname"
+                          class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                          required>
+                      </div>
+                      <div>
+                        <label for="adress"
+                          class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Adresse</label>
+                        <input type="adress" name="adress" id="adress" v-model="plantPosts.adress"
+                          class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                          required>
+                      </div>
+                      <div>
+                        <label for="post_code" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Code
+                          Postal</label>
+                        <input type="post_code" name="post_code" id="post_code" v-model="plantPosts.post_code"
+                          class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                          required>
+                      </div>
+                      <div>
+                        <label for="city"
+                          class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Ville</label>
+                        <input type="city" name="city" id="city" v-model="plantPosts.city"
+                          class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                          required>
+                      </div>
+                      <div>
+                        <label for="start_date"
+                          class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Date de
+                          début du gardiennage</label>
+                        <input type="start_date" name="start_date" id="start_date" v-model="plantPosts.start_date"
+                          class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                          required>
+                      </div>
+                      <div>
+                        <label for="end_date" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Date
+                          de fin
+                          du gardiennage</label>
+                        <input type="end_date" name="end_date" id="end_date" v-model="plantPosts.end_date"
+                          class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                          required>
+                      </div>
+                    </form>
+                  </div>
+
+                  <!--footer-->
+                  <div class="flex items-center justify-end p-6 border-t border-solid border-slate-200 rounded-b">
+                    <button
+                      class="text-red-500 bg-transparent border border-solid border-red-500 hover:bg-red-500 hover:text-white active:bg-red-600 font-bold uppercase text-sm px-6 py-3 rounded outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                      type="button" @click="handleNewPlant">
+                      Save Changes
+                    </button>
+                    <button
+                      class="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                      type="button" @click="toggleModal()">
+                      Close
+                    </button>
+                  </div>
+                </Modal>
+
+
 
               </div>
             </div>
@@ -101,6 +186,8 @@
 import axios from 'axios';
 import CardCatalogue from '../components/CardCatalogue.vue';
 import Modal from '../components/CardModal.vue'
+import photoProfil from '../assets/images/plante3.jpg'
+const url = 'http://localhost:8080/api/'
 
 export default {
   name: "ProfilView",
@@ -111,12 +198,11 @@ export default {
   data() {
     return {
       user: {
-        id: 1,
-        lastname: 'Nom',
-        firstname: 'Prenom',
-        email: 'votre-email@email.fr',
-        type_user: 'Type d\'utilisateur',
-        profile_photo: ''
+        lastname: 'Lucky',
+        firstname: 'Luc',
+        email: 'LuckyLucky@wanadoo.fr',
+        type_user: 'utilisateur',
+        profile_photo: photoProfil,
       },
 
       plantPosts: [{
@@ -140,9 +226,34 @@ export default {
       imageStandby: '',
     }
   },
-  async mounted() { },
+  async mounted() {
+    // TODO: enlever commenter lorsque méthode ok
+    // this.getUser();
+  },
   watch: {},
   methods: {
+    async getUser(id) {
+      try {
+        const user = await axios.get(url + `user/${id}`,
+          {
+            headers: { "Access-Control-Allow-Origin": "*" }
+          });
+        this.plantPosts = user.data;
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    async getPlantPosts() {
+      try {
+        const posts = await axios.get(url + "planPosts",
+          {
+            headers: { "Access-Control-Allow-Origin": "*" }
+          });
+        this.plantPosts = posts.data;
+      } catch (error) {
+        console.log(error);
+      }
+    },
     toggleCamera() {
       if (this.isCameraOpen) {
         this.isCameraOpen = false;
@@ -220,14 +331,14 @@ export default {
       read.readAsBinaryString(file);
       this.handleModal();
     },
-    async sendImage() {
-      const image = this.imageStandby;
+    async handleNewPlant() {
       try {
-        await axios.post(`${window.location.origin}/profil`, image)
+        this.plantPosts.photo = this.imageStandby;
+        await axios.post(url + '1/plantPost', this.plantPosts);
       } catch (error) {
-        console.log("Erreur dans l'enregistrement d'une image", error)
+        console.log(error)
       }
-    },
+    }
   }
 }
 
