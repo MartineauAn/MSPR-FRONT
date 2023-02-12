@@ -90,14 +90,7 @@ export default {
   methods: {
     fetchPlantPosts: async function () {
       try {
-        const response = await axios.get(
-          "http://localhost:8080/api/planPosts",
-          {
-            headers: {
-              "Access-Control-Allow-Origin": "*",
-            },
-          }
-        );
+        const response = await axios.get("planPosts",this.axios_config);
         this.plantPosts = response.data;
       } catch (error) {
         console.log(error);

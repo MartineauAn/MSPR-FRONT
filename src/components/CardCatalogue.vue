@@ -1,7 +1,7 @@
 <template>
   <div class="bg-white p-6 rounded-lg shadow-lg">
     <img
-      src="@/assets/images/plante3.jpg"
+      :src="photo"
       alt="Example image 1"
       class="w-full h-48 object-cover rounded-lg"
     />
@@ -16,6 +16,11 @@
 export default {
     props: {
         plantPost: null,
-    }
+    },
+    data(){
+      return {
+        photo: this.imgAuth + "plantPosts/photos/" + this.plantPost.photo.id
+      }
+    },
 }
 </script>
