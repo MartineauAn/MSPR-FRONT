@@ -1,19 +1,13 @@
 <template>
   <div class="main ">
     <div class="bg-cover bg-center h-96 shadow-lg">
-      <!-- grid rows 2 permet de séparer la page en deux en largueur -->
       <div class="grid auto-rows-max">
         <div class="bg-cover bg-center h-96 shadow-lg">
-
           <img src="@/assets/images/fond-profil.jpg" class="object-cover h-full w-full" />
         </div>
-        <!-- cols pour séparer dans la longuer et relative sinon les tuilles ne vont pas sur l'image -->
-        <div class="grid  gap-6 hover:cols-1 absolute">
-          <h1 class="
-              absolute font
-              text-5xl text-black
-              top-1/3 left-1/2
-              -translate-x-1/2 -translate-y-1/2">
+
+        <div class="grid gap-6 hover:cols-1 absolute">
+          <h1 class="absolute font text-5xl text-black top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2">
             APlanter
           </h1>
           <div class="container mx-auto">
@@ -30,9 +24,7 @@
               </div>
             </div>
           </div>
-
         </div>
-
       </div>
       <!-- deuxième parti de l'écran -->
       <div class="container mx-auto py-2 px-6 shadow-lg">
@@ -45,6 +37,7 @@
             <img v-if="disableImg === false" src="../assets/images/add.png" alt="button ajout" border="0"
               @click="toggleCamera">
             <div id="app" class="">
+              <!-- camera !! -->
               <div class="camera-button">
                 <button type="button" class="button is-rounded"
                   :class="{ 'is-primary': !isCameraOpen, 'is-danger': isCameraOpen }" @click="toggleCamera">
@@ -73,13 +66,8 @@
                 </button>
               </div>
 
+              <!-- Modal !! -->
               <div v-if="isPhotoTaken && isCameraOpen" class="camera-download">
-                <!--
-
-                  <button type="button" @click="handleImage">
-                    <span class="font font-p">Envoyer photo</span>
-                  </button>
-                -->
                 <!-- TODO: push photo en back ! -->
 
                 <Modal>
@@ -183,8 +171,8 @@
 
 <script>
 
-import axios from 'axios';
-import CardCatalogue from '../components/CardCatalogue.vue';
+import axios from 'axios'
+import CardCatalogue from '../components/CardCatalogue.vue'
 import Modal from '../components/CardModal.vue'
 import photoProfil from '../assets/images/plante3.jpg'
 const url = 'http://localhost:8080/api/'
@@ -229,6 +217,7 @@ export default {
   async mounted() {
     // TODO: enlever commenter lorsque méthode ok
     // this.getUser();
+    // this.getPlantPosts()
   },
   watch: {},
   methods: {
@@ -240,18 +229,20 @@ export default {
           });
         this.plantPosts = user.data;
       } catch (error) {
-        console.log(error);
+        console.log('erreur dans get user' + error);
       }
     },
+    // TODO: vérifier appel fonctionne ! pour getUser et getPlantPosts
     async getPlantPosts() {
       try {
         const posts = await axios.get(url + "planPosts",
           {
             headers: { "Access-Control-Allow-Origin": "*" }
           });
-        this.plantPosts = posts.data;
+        // this.plantPosts = posts.data;
+        console.log(posts.data);
       } catch (error) {
-        console.log(error);
+        console.log('erreur dans getPlantPosts' + error);
       }
     },
     toggleCamera() {
@@ -315,7 +306,6 @@ export default {
       context.drawImage(this.$refs.camera, 0, 0, 450, 337.5);
     },
 
-    // TODO: faire méthode pour récupérer la photo et l'envoyer au back
     handleImage() {
       const download = document.getElementById("downloadPhoto");
       const canvas = document.getElementById("photoTaken").toDataURL("image/jpeg")
