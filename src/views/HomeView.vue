@@ -15,9 +15,7 @@
           text-6xl text-black
           top-36
           left-1/2
-          -translate-x-1/2 -translate-y-1/2
-        "
-      >
+          -translate-x-1/2 -translate-y-1/2">
         APlanter
       </h1>
       <img
@@ -46,7 +44,7 @@
         <div>
           <img
             src="@/assets/images/plante2.jpg"
-            alt="Example image 1"
+            alt=""
             class="w-full h-96 object-cover"
           />
         </div>
@@ -64,7 +62,9 @@
         "
       >
         <div v-for="plantPost in plantPosts" v-bind:key="plantPost.id">
-          <CardCatalogue :plantPost="plantPost" />
+          <router-link :to='"/plant/" + plantPost.id + "/detail"' custom v-slot="{ navigate }">
+            <CardCatalogue :plantPost="plantPost" @click="navigate" />
+          </router-link>
         </div>
       </div>
     </div>

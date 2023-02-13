@@ -63,7 +63,6 @@
       >
         <div
           class="
-            overflow-auto
             bg-white
             p-6
             rounded-xl
@@ -90,11 +89,53 @@
               <label class="block text-gray-700 font-bold mb-2" for="message">
                 Ajouter un conseil
               </label>
-              <textarea
-                class="
+              <div>
+                <label
+                  for="first_name"
+                  class="
+                    block
+                    mb-2
+                    text-xl
+                    font-medium
+                    text-gray-900
+                  "
+                  >Titre</label
+                >
+                <input
+                  type="text"
+                  id="adviceTitle"
+                  class="
+                  border border-gray-300
                   shadow
                   appearance-none
-                  border
+                  rounded
+                  w-full
+                  py-2
+                  px-3
+                  text-gray-700
+                  leading-tight
+                  focus:outline-none focus:shadow-outline
+                  "
+                  placeholder="Titre"
+                  required
+                  v-model="adviceTitle"
+                />
+              </div>
+              <label
+                  for="first_name"
+                  class="
+                    block
+                    mb-2
+                    text-xl
+                    font-medium
+                    text-gray-900
+                  "
+                  >Conseil</label>
+              <textarea
+                class="
+                border border-gray-300
+                  shadow
+                  appearance-none
                   rounded
                   w-full
                   py-2
@@ -103,20 +144,13 @@
                   leading-tight
                   focus:outline-none focus:shadow-outline
                 "
-                id="message"
-                v-model="message"
-              ></textarea>
+                id="advice"
+                v-model="advice"
+              >Conseil</textarea>
             </div>
             <div class="flex justify-end">
               <button
-                class="
-                  text-white
-                  font-bold
-                  py-2
-                  px-4
-                  rounded
-                  mr-2
-                "
+                class="text-white font-bold py-2 px-4 rounded mr-2"
                 @click="saveMessage"
                 style="
                   background-image: linear-gradient(
@@ -144,11 +178,11 @@
               </button>
             </div>
           </CardAddAdvice>
-          <div class="pt-6">
-            <p class="text-gray-600 text-base">
+          <div class="flex pt-6">
+            <p class="text-gray-600 text-base overflow-auto">
               Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec
               elementum, diam ac finibus mattis, diam purus pellentesque mi,
-              eget mattis velit neque ut quam. Nunc et velit .
+              eget mattis velit neque ut quam. Nunc et velit .test etst
             </p>
           </div>
         </div>
@@ -166,7 +200,6 @@
       >
         <div
           class="
-            overflow-auto
             bg-white
             p-6
             rounded-lg
@@ -185,6 +218,7 @@
 </template>
 <script>
 import CardAddAdvice from "@/components/CardAddAdvice.vue";
+import axios from "axios";
 export default {
   components: {
     CardAddAdvice,
@@ -192,7 +226,8 @@ export default {
   data() {
     return {
       showModal: false,
-      message: "",
+      advice: "",
+      adviceTitle: "",
     };
   },
   methods: {
@@ -201,11 +236,28 @@ export default {
     },
     closeModal() {
       this.showModal = false;
-      this.message = "";
+      this.advice = "";
+      this.adviceTitle = "";
     },
     saveMessage() {
       // Do something with the message data
-      console.log(this.message);
+      console.log(this.advice);
+      axios
+        .post(
+          "planPosts/1/specification",
+          {
+            title: this.adviceTitle,
+            content: this.advice,
+          },
+          this.axios_config
+        )
+
+        .then(function (response) {
+          console.log(response);
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
       this.closeModal();
     },
   },

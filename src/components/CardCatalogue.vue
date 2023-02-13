@@ -2,7 +2,7 @@
   <div class="bg-white p-6 rounded-lg shadow-lg">
     <img
       :src="photo"
-      alt="Example image 1"
+      alt="photo"
       class="w-full h-48 object-cover rounded-lg"
     />
     <div class="pt-6">
