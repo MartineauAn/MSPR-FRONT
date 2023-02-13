@@ -2,7 +2,7 @@
   <div>
     <button
       class="bg-green-500 text-white active:bg-pink-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
-      type="button" v-on:click="toggleModal()">
+      type="button" @click="toggleModal()">
       Envoyer photo
     </button>
     <div v-if="showModal"
@@ -18,11 +18,9 @@
               Informations complémentaire
             </p>
             <button
-              class="p-1 ml-auto bg-transparent border-0 text-black opacity-5 float-right text-3xl leading-none font-semibold outline-none focus:outline-none"
-              v-on:click="toggleModal()">
-              <span class="bg-transparent text-black opacity-5 h-6 w-6 text-2xl block outline-none focus:outline-none">
-                ×
-              </span>
+              class="text-black-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+              type="button" @click="toggleModal()">
+              Annuler
             </button>
           </div>
 
