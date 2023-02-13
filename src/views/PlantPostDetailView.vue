@@ -185,6 +185,7 @@
 </template>
 <script>
 import CardAddAdvice from "@/components/CardAddAdvice.vue";
+import axios from "axios";
 export default {
   components: {
     CardAddAdvice,
@@ -206,6 +207,16 @@ export default {
     saveMessage() {
       // Do something with the message data
       console.log(this.message);
+    axios.post('planPosts/1/specification',{
+        title: 'title',
+        content: 'content'
+  }, this.axios_config)
+  .then(function (response) {
+    console.log(response);
+  })
+  .catch(function (error) {
+    console.log(error);
+  });
       this.closeModal();
     },
   },
