@@ -15,5 +15,6 @@ app.config.globalProperties.axios_config = {
         password: "grogudev"
       }
 };
+
 app.config.globalProperties.imgAuth = "http://user:grogudev@10.60.114.28:8080/api/"
 app.use(store).use(router).mount('#app')
