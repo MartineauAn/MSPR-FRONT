@@ -61,17 +61,19 @@
           content-end
         "
       >
-        <div class="overflow-auto bg-white p-6 rounded-xl shadow-lg lg:w-96 lg:h-60">
+        <div
+          class="
+            overflow-auto
+            bg-white
+            p-6
+            rounded-xl
+            shadow-lg
+            lg:w-96 lg:h-60
+          "
+        >
           <h1 class="text-3xl font-semibold">Conseil d'entretien</h1>
           <button
-            class="
-              text-white
-              font-bold
-              py-2
-              px-4
-              rounded-full
-              mt-4
-            "
+            class="text-white font-bold py-2 px-4 rounded-full mt-4"
             style="
               background-image: linear-gradient(
                 to right,
@@ -79,9 +81,69 @@
                 rgb(212, 219, 212)
               );
             "
+            @click="openModal"
           >
             Ajouter un conseil
           </button>
+          <CardAddAdvice :show="showModal" @close-modal="closeModal">
+            <div class="mb-4">
+              <label class="block text-gray-700 font-bold mb-2" for="message">
+                Ajouter un conseil
+              </label>
+              <textarea
+                class="
+                  shadow
+                  appearance-none
+                  border
+                  rounded
+                  w-full
+                  py-2
+                  px-3
+                  text-gray-700
+                  leading-tight
+                  focus:outline-none focus:shadow-outline
+                "
+                id="message"
+                v-model="message"
+              ></textarea>
+            </div>
+            <div class="flex justify-end">
+              <button
+                class="
+                  text-white
+                  font-bold
+                  py-2
+                  px-4
+                  rounded
+                  mr-2
+                "
+                @click="saveMessage"
+                style="
+                  background-image: linear-gradient(
+                    to right,
+                    rgb(226, 227, 221),
+                    rgb(212, 219, 212)
+                  );
+                "
+              >
+                Sauvegarder
+              </button>
+              <button
+                class="
+                  bg-gray-500
+                  hover:bg-gray-700
+                  text-white
+                  font-bold
+                  py-2
+                  px-4
+                  rounded
+                "
+                @click="closeModal"
+              >
+                Fermer
+              </button>
+            </div>
+          </CardAddAdvice>
           <div class="pt-6">
             <p class="text-gray-600 text-base">
               Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec
@@ -102,7 +164,16 @@
           content-start
         "
       >
-        <div class="overflow-auto bg-white p-6 rounded-lg shadow-lg lg:w-96 lg:h-60">
+        <div
+          class="
+            overflow-auto
+            bg-white
+            p-6
+            rounded-lg
+            shadow-lg
+            lg:w-96 lg:h-60
+          "
+        >
           <h1 class="text-3xl font-semibold">Description</h1>
           <div class="pt-6">
             <p class="text-gray-600 text-base">blablablabla</p>
@@ -113,9 +184,30 @@
   </div>
 </template>
 <script>
+import CardAddAdvice from "@/components/CardAddAdvice.vue";
 export default {
+  components: {
+    CardAddAdvice,
+  },
+  data() {
+    return {
+      showModal: false,
+      message: "",
+    };
+  },
   methods: {
+    openModal() {
+      this.showModal = true;
+    },
+    closeModal() {
+      this.showModal = false;
+      this.message = "";
+    },
+    saveMessage() {
+      // Do something with the message data
+      console.log(this.message);
+      this.closeModal();
+    },
   },
 };
-
 </script>
