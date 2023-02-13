@@ -19,7 +19,7 @@ export default {
     },
     data(){
       return {
-        photo: this.imgAuth + "plantPosts/photos/" + this.plantPost.photo.id
+        photo: this.imgAuth + "plantPosts/photos/" + this.plantPost.photo_id
       }
     },
 }

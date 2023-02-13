@@ -13,7 +13,7 @@
           <div class="container mx-auto">
             <div class="grid grid-cols-2 gap-6">
               <div class="bg-white p-6 rounded-lg shadow-lg">
-                <img :src=user.profile_photo alt="Example image 1" class="h-56 w-80 object-cover" />
+                <img :src=profile_photo alt="Example image 1" class="h-56 w-80 object-cover" />
               </div>
               <div class="bg-white p-6 rounded-lg shadow-lg">
                 <br>
@@ -184,26 +184,9 @@ export default {
   },
   data() {
     return {
-      user: {
-        lastname: 'Lucky',
-        firstname: 'Luc',
-        email: 'LuckyLucky@wanadoo.fr',
-        type_user: 'utilisateur',
-        profile_photo: photoProfil,
-      },
-      plantPosts: [{
-        id: 1,
-        publication_date: '',
-        photo: '',
-        title: 'une tulipe',
-        description: 'a très soif',
-        surname: 'lili',
-        city: '',
-        address: '',
-        post_code: '',
-        start_date: '',
-        end_date: ''
-      }],
+      user: null,
+      plantPosts: [],
+      profile_photo: photoProfil,
       isCameraOpen: false,
       isPhotoTaken: false,
       isShotPhoto: false,
@@ -213,10 +196,10 @@ export default {
       isModalVisible: false,
     }
   },
-  async mounted() {
+  created () {
     // TODO: enlever commenter lorsque méthode ok
     this.getUser();
-    // this.getPlantPosts()
+    this.getPlantPosts()
   },
   watch: {},
   methods: {
@@ -230,8 +213,9 @@ export default {
       try {
         const user = await axios.get(`users/${this.$route.params.id}`, this.axios_config);
 
-        // this.user = user.data;
-        console.log(user)
+        this.user = (await user).data;
+
+
       } catch (error) {
         console.log('erreur dans get user' + error);
       }
@@ -239,9 +223,9 @@ export default {
     // TODO: vérifier appel fonctionne ! pour getUser et getPlantPosts
     async getPlantPosts() {
       try {
-        const posts = await axios.get("planPosts", this.axios_config);
-        this.plantPosts = posts.data;
-        console.log(posts.data);
+        const posts = await axios.get(`users/${this.$route.params.id}/plantPosts`, this.axios_config);
+        console.log(posts)
+        this.plantPosts = (await posts).data._embedded.plantPosts;
       } catch (error) {
         console.log('erreur dans getPlantPosts' + error);
       }
