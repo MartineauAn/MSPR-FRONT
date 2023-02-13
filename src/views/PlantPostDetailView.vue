@@ -5,7 +5,7 @@
         to right,
         rgb(226, 227, 221),
         rgb(212, 219, 212)
-      );" class="h-full">
+      );" class="h-screen">
       
     <div
       class="

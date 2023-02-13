@@ -15,8 +15,10 @@
           text-6xl text-black
           top-36
           left-1/2
-          -translate-x-1/2 -translate-y-1/2">
-        APlanter
+          -translate-x-1/2 -translate-y-1/2
+        "
+      >
+        APPlanter
       </h1>
       <img
         src="@/assets/images/plante1.jpg"
@@ -25,19 +27,16 @@
     </div>
     <div class="container mx-auto shadow-lg" style="background-color: #f6f6f8">
       <div class="grid grid-cols-2">
-        <div class="flex justify-center items-center content-center ml-6 mr-6">
+        <div class="flex justify-center items-center content-center ml-6 mr-6 ">
           <div>
             <h3 class="text-3xl font-semibold">A propos de nous</h3>
-            <p class="text-2xl font-medium">
-              Nous sommes “A’rosa-je” nous aidons les particuliers à prendre soin de
-              leurs plantes. Fondée en 1984 nous avons tout d’abord été composée
-              d’une petite équipe de botanistes dans une seule ville et nous sommes
-              maintenant composée de plus de 1500 botanistes répartis sur toute
-              la France qui rendent service aux propriétaires de plantes de deux
-              façons :<br> - En allant garder leurs plantes lorsque les
-              propriétaires sont absents <br> - En prodiguant des conseils
-              d’entretien afin que les propriétaires s’occupent de mieux en
-              mieux de leurs plantes.
+            <p class="sm:text-2xl lg:text-2xl sm:font-medium lg:font-medium text-base">
+              Nous sommes “A’rosa-je” nous aidons les particuliers à prendre
+              soin de leurs plantes. Fondée en 1984 nous avons tout d’abord été
+              composée d’une petite équipe de botanistes dans une seule ville et
+              nous sommes maintenant composée de plus de 1500 botanistes
+              répartis sur toute la France qui rendent service aux propriétaires
+              de plantes.
             </p>
           </div>
         </div>
@@ -62,7 +61,11 @@
         "
       >
         <div v-for="plantPost in plantPosts" v-bind:key="plantPost.id">
-          <router-link :to='"/plant/" + plantPost.id + "/detail"' custom v-slot="{ navigate }">
+          <router-link
+            :to="'/plant/' + plantPost.id + '/detail'"
+            custom
+            v-slot="{ navigate }"
+          >
             <CardCatalogue :plantPost="plantPost" @click="navigate" />
           </router-link>
         </div>
@@ -90,7 +93,7 @@ export default {
   methods: {
     fetchPlantPosts: async function () {
       try {
-        const response = await axios.get("planPosts",this.axios_config);
+        const response = await axios.get("planPosts", this.axios_config);
         this.plantPosts = response.data;
       } catch (error) {
         console.log(error);
