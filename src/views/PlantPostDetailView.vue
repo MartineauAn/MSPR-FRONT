@@ -1,36 +1,38 @@
 <template>
-  <div
+      <div 
     style="
       background: linear-gradient(
         to right,
         rgb(226, 227, 221),
         rgb(212, 219, 212)
-      );
-    "
-    class="h-screen"
-  >
+      );" class="h-full">
+      
     <div
       class="
         flex
         grid grid-cols-1
         sm:grid-cols-2
         lg:grid-cols-2
-        gap-x-48 gap-y-12
+        gap-y-10
+        sm:gap-x-48 sm:gap-y-12
+        lg:gap-x-48 lg:gap-y-12
       "
     >
-      <div class="flex col-span-1 justify-end items-end content-end mt-6">
+      <div class="flex col-span-1 justify-center lg:justify-end sm:justify-end mt-6 ">
         <div class="bg-white p-6 rounded-xl shadow-lg">
           <img
-            src="@/assets/images/plante3.jpg"
-            alt="Example image 1"
+            :src="photo "
+            alt=""
             class="w-48 h-32 object-cover rounded-lg"
           />
           <div class="pt-6">
-            <p class="text-gray-600 text-base">Nom commun</p>
+            <p class="text-gray-600 text-base">{{ plantPost.title }}</p>
           </div>
         </div>
       </div>
-      <div class="flex col-span-1 justify-start items-start content-start mt-6">
+      <div
+        class="flex col-span-1 justify-center lg:justify-start sm:justify-start"
+      >
         <div
           class="
             col-span-2
@@ -42,10 +44,25 @@
             content-center
           "
         >
-          <div class="bg-white p-6 rounded-xl shadow-lg lg:w-96 lg:h-60">
+          <div
+            class="
+              bg-white
+              rounded-xl
+              shadow-lg
+              w-52
+              h-40
+              sm:w-72 sm:h-56
+              lg:w-72 lg:h-56
+              mt-6
+            "
+          >
             <h1 class="text-3xl font-semibold">Adresse</h1>
             <div class="pt-6">
-              <p class="text-gray-600 text-base">blablablabla</p>
+              <p class="text-gray-600 text-base">
+                {{ plantPost.address }} , <br />{{ plantPost.city }} , <br />{{
+                  plantPost.post_code
+                }}
+              </p>
             </div>
           </div>
         </div>
@@ -56,15 +73,27 @@
           sm:col-span-1
           lg:col-span-1
           flex
-          justify-end
-          items-end
-          content-end
+          justify-center
+          lg:justify-end
+          sm:justify-end
         "
       >
-        <div class="bg-white p-6 rounded-xl shadow-lg lg:w-96 lg:h-60">
+        <div
+          class="
+            bg-white
+            p-6
+            rounded-xl
+            shadow-lg
+            w-72
+            h-56
+            sm:w-72 sm:h-56
+            lg:w-72 lg:h-56
+            overflow-y-auto
+          "
+        >
           <h1 class="text-3xl font-semibold">Conseil d'entretien</h1>
           <button
-            class="text-white font-bold py-2 px-4 rounded-full mt-4"
+            class="text-white font-bold py-2 px-4 rounded-full"
             style="
               background-image: linear-gradient(
                 to right,
@@ -161,17 +190,20 @@ Conseil</textarea
               </button>
             </div>
           </CardAddAdvice>
-            <div
-              v-for="specification in plantPost.specifications"
-              :key="specification.id"
-              class="flex pt-6"
-            >
-              <p class="text-gray-600 text-base">{{ specification.title }}</p>
-
-              <p class="text-gray-600 text-base overflow-auto">
+          <div
+            v-for="specification in plantPost.specifications"
+            :key="specification.id"
+            class="flex pt-6"
+          >
+            <div class="flex flex-col">
+              <h1 class="text-gray-600 text-2xl font-semibold">
+                {{ specification.title }}
+              </h1>
+              <p class="text-gray-600 text-lg w-full">
                 {{ specification.comment }}
               </p>
             </div>
+          </div>
         </div>
       </div>
       <div
@@ -180,12 +212,24 @@ Conseil</textarea
           sm:col-span-1
           lg:col-span-1
           flex
-          justify-start
-          items-start
-          content-start
+          justify-center
+          lg:justify-start
+          sm:justify-start
         "
       >
-        <div class="bg-white p-6 rounded-lg shadow-lg lg:w-96 lg:h-60">
+        <div
+          class="
+            bg-white
+            p-6
+            rounded-xl
+            shadow-lg
+            w-72
+            h-52
+            sm:w-72 sm:h-56
+            lg:w-72 lg:h-56
+            overflow-y-auto
+          "
+        >
           <h1 class="text-3xl font-semibold">Description</h1>
           <div class="pt-6">
             <p class="text-gray-600 text-base">{{ plantPost.description }}</p>
@@ -193,7 +237,7 @@ Conseil</textarea
         </div>
       </div>
     </div>
-  </div>
+</div>
 </template>
 <script>
 import CardAddAdvice from "@/components/CardAddAdvice.vue";
@@ -208,6 +252,8 @@ export default {
       advice: "",
       adviceTitle: "",
       plantPost: [],
+      photo: "",
+
     };
   },
   created: function () {
@@ -232,11 +278,7 @@ export default {
       form.append("content", this.advice);
 
       axios
-        .post(
-          "planPosts/1/specification",
-          form,
-          this.axios_config
-        )
+        .post("planPosts/1/specification", form, this.axios_config)
 
         .then(function (response) {
           console.log(response);
@@ -245,6 +287,7 @@ export default {
           console.log(error);
         });
       this.closeModal();
+      this.fetchPlantPost();
     },
 
     fetchPlantPost: async function () {
@@ -254,7 +297,8 @@ export default {
           this.axios_config
         );
         this.plantPost = response.data;
-        console.log(this.plantPost);
+        this.photo = this.imgAuth + "plantPosts/photos/" + this.plantPost.photo_id
+
       } catch (error) {
         console.log(error);
       }
@@ -262,43 +306,3 @@ export default {
   },
 };
 </script>
-
-<!-- address
-: 
-"aaaaaaaaaaaaaa"
-city
-: 
-"aaaaa"
-description
-: 
-"1vsd s sf "
-end_date
-: 
-"2021-06-02T21:33:45.249967"
-id
-: 
-1
-photo
-: 
-{fileName: '1666299726.jpeg', mimeType: 'image/jpeg', size: 395659, id: 'edf279a6-a4d4-466c-a7b4-97d7b7315aba'}
-photo_id
-: 
-"edf279a6-a4d4-466c-a7b4-97d7b7315aba"
-post_code
-: 
-"aaaaa"
-publicationDate
-: 
-"2023-02-13T14:31:42.960+00:00"
-specifications
-: 
-[]
-start_date
-: 
-"2021-06-02T21:33:45.249967"
-surname
-: 
-"aaa"
-title
-: 
-"aaaaaaaaaaaaaaa" -->
