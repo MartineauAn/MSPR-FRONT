@@ -242,13 +242,16 @@ export default {
     saveMessage() {
       // Do something with the message data
       console.log(this.advice);
+
+      var form = new FormData();
+
+      form.append("title", this.adviceTitle);
+      form.append("content", this.advice);
+
       axios
         .post(
           "planPosts/1/specification",
-          {
-            title: this.adviceTitle,
-            content: this.advice,
-          },
+          form,
           this.axios_config
         )
 
