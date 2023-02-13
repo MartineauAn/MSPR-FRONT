@@ -7,9 +7,6 @@
         </div>
 
         <div class="grid gap-6 hover:cols-1 absolute">
-          <h1 class="absolute font text-5xl text-black top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2">
-            APlanter
-          </h1>
           <div class="container mx-auto">
             <div class="grid grid-cols-2 gap-6">
               <div class="bg-white p-6 rounded-lg shadow-lg">
@@ -81,62 +78,62 @@
                       <div class="grid grid-cols-2 gap-6">
 
                         <div>
-                          <label for="title" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                          <label for="title" class="block mb-2 text-sm font-medium text-gray-900">
                             Titre de l'annonce</label>
-                          <input type="title" name="title" id="title" v-model="plantPosts.title"
+                          <input type="title" name="title" id="title" v-model="plantPost.title"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                             required>
                         </div>
                         <div>
-                          <label for="description" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                          <label for="description" class="block mb-2 text-sm font-medium text-gray-900">
                             Description de l'annonce
                           </label>
-                          <input type="description" name="description" id="description" v-model="plantPosts.description"
+                          <input type="description" name="description" id="description" v-model="plantPost.description"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                             required>
                         </div>
                         <div>
-                          <label for="surname" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                          <label for="surname" class="block mb-2 text-sm font-medium text-gray-900">
                             Le petit nom de votre plante
                           </label>
-                          <input type="surname" name="surname" id="surname" v-model="plantPosts.surname"
+                          <input type="surname" name="surname" id="surname" v-model="plantPost.surname"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                             required>
                         </div>
                         <div>
                           <label for="adress"
-                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Adresse</label>
-                          <input type="adress" name="adress" id="adress" v-model="plantPosts.adress"
+                            class="block mb-2 text-sm font-medium text-gray-900">Adresse</label>
+                          <input type="adress" name="adress" id="adress" v-model="plantPost.adress"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                             required>
                         </div>
                         <div>
                           <label for="post_code"
-                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Code
+                            class="block mb-2 text-sm font-medium text-gray-900">Code
                             Postal</label>
-                          <input type="post_code" name="post_code" id="post_code" v-model="plantPosts.post_code"
+                          <input type="post_code" name="post_code" id="post_code" v-model="plantPost.post_code"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                             required>
                         </div>
                         <div>
                           <label for="city"
-                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Ville</label>
+                            class="block mb-2 text-sm font-medium text-gray-900">Ville</label>
                           <input type="city" name="city" id="city" v-model="plantPosts.city"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                             required>
                         </div>
                         <div>
                           <label for="start_date"
-                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Date de début du
+                            class="block mb-2 text-sm font-medium text-gray-900">Date de début du
                             gardiennage</label>
-                          <input type="start_date" name="start_date" id="start_date" v-model="plantPosts.start_date"
+                          <input type="start_date" name="start_date" id="start_date" v-model="plantPost.start_date"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                             required>
                         </div>
                         <div>
-                          <label for="end_date" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                          <label for="end_date" class="block mb-2 text-sm font-medium text-gray-900">
                             Date de fin du gardiennage</label>
-                          <input type="end_date" name="end_date" id="end_date" v-model="plantPosts.end_date"
+                          <input type="end_date" name="end_date" id="end_date" v-model="plantPost.end_date"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                             required>
                         </div>
@@ -194,6 +191,16 @@ export default {
       disableImg: false,
       imageStandby: '',
       isModalVisible: false,
+      plantPost: {
+        start_date: null,
+        end_date: null,
+        title: null,
+        description: null,
+        surname: null,
+        post_code: null,
+        adress: null,
+        city: null,
+      }
     }
   },
   created () {
@@ -293,8 +300,7 @@ export default {
 
     handleImage() {
       const download = document.getElementById("downloadPhoto");
-      const canvas = document.getElementById("photoTaken").toDataURL("image/jpeg")
-        .replace("image/jpeg", "image/octet-stream");
+      const canvas = document.getElementById("photoTaken").toDataURL("image/jpeg");
       download.setAttribute("href", canvas);
       this.createBase64Image(canvas);
     },
@@ -306,12 +312,31 @@ export default {
       read.readAsBinaryString(file);
     },
     async handleNewPlant() {
-      try {
-        this.plantPosts.photo = this.imageStandby;
-        await axios.post("1/planPosts", this.plantPosts, this.axios_config);
-      } catch (error) {
-        console.log(error)
-      }
+
+      var form = new FormData();
+
+      var canvas = document.getElementById("photoTaken");
+
+      canvas.toBlob(async blob => {
+        const file = new File([blob], "image.png")
+        form.append("start_date",this.plantPost.start_date);
+        form.append("end_date",this.plantPost.end_date);
+        form.append("title",this.plantPost.title);
+        form.append("description",this.plantPost.description);
+        form.append("surname",this.plantPost.surname);
+        form.append("city",this.plantPost.city);
+        form.append("address",this.plantPost.adress);
+        form.append("post_code",this.plantPost.post_code);
+        form.append("photo",file,"image.jpeg");
+        form.append("plant_id",1);
+        
+        console.log(form);
+        try {
+          await axios.post("1/plantPost", form , this.axios_config);
+        } catch (error) {
+          console.log(error)
+        }
+      })
     }
   }
 }
