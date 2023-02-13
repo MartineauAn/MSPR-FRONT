@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-white p-6 rounded-lg shadow-lg">
+  <div class="bg-white p-6 rounded-lg shadow-lg cursor-pointer transform hover:scale-105 active:scale-95">
     <img
       :src="photo"
       alt="photo"
@@ -11,6 +11,7 @@
       </p>
     </div>
   </div>
+
 </template>
 <script>
 export default {

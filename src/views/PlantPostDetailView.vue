@@ -61,15 +61,7 @@
           content-end
         "
       >
-        <div
-          class="
-            bg-white
-            p-6
-            rounded-xl
-            shadow-lg
-            lg:w-96 lg:h-60
-          "
-        >
+        <div class="bg-white p-6 rounded-xl shadow-lg lg:w-96 lg:h-60">
           <h1 class="text-3xl font-semibold">Conseil d'entretien</h1>
           <button
             class="text-white font-bold py-2 px-4 rounded-full mt-4"
@@ -92,29 +84,23 @@
               <div>
                 <label
                   for="first_name"
-                  class="
-                    block
-                    mb-2
-                    text-xl
-                    font-medium
-                    text-gray-900
-                  "
+                  class="block mb-2 text-xl font-medium text-gray-900"
                   >Titre</label
                 >
                 <input
                   type="text"
                   id="adviceTitle"
                   class="
-                  border border-gray-300
-                  shadow
-                  appearance-none
-                  rounded
-                  w-full
-                  py-2
-                  px-3
-                  text-gray-700
-                  leading-tight
-                  focus:outline-none focus:shadow-outline
+                    border border-gray-300
+                    shadow
+                    appearance-none
+                    rounded
+                    w-full
+                    py-2
+                    px-3
+                    text-gray-700
+                    leading-tight
+                    focus:outline-none focus:shadow-outline
                   "
                   placeholder="Titre"
                   required
@@ -122,18 +108,13 @@
                 />
               </div>
               <label
-                  for="first_name"
-                  class="
-                    block
-                    mb-2
-                    text-xl
-                    font-medium
-                    text-gray-900
-                  "
-                  >Conseil</label>
+                for="first_name"
+                class="block mb-2 text-xl font-medium text-gray-900"
+                >Conseil</label
+              >
               <textarea
                 class="
-                border border-gray-300
+                  border border-gray-300
                   shadow
                   appearance-none
                   rounded
@@ -146,7 +127,9 @@
                 "
                 id="advice"
                 v-model="advice"
-              >Conseil</textarea>
+              >
+Conseil</textarea
+              >
             </div>
             <div class="flex justify-end">
               <button
@@ -178,13 +161,17 @@
               </button>
             </div>
           </CardAddAdvice>
-          <div class="flex pt-6">
-            <p class="text-gray-600 text-base overflow-auto">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec
-              elementum, diam ac finibus mattis, diam purus pellentesque mi,
-              eget mattis velit neque ut quam. Nunc et velit .test etst
-            </p>
-          </div>
+            <div
+              v-for="specification in plantPost.specifications"
+              :key="specification.id"
+              class="flex pt-6"
+            >
+              <p class="text-gray-600 text-base">{{ specification.title }}</p>
+
+              <p class="text-gray-600 text-base overflow-auto">
+                {{ specification.comment }}
+              </p>
+            </div>
         </div>
       </div>
       <div
@@ -198,18 +185,10 @@
           content-start
         "
       >
-        <div
-          class="
-            bg-white
-            p-6
-            rounded-lg
-            shadow-lg
-            lg:w-96 lg:h-60
-          "
-        >
+        <div class="bg-white p-6 rounded-lg shadow-lg lg:w-96 lg:h-60">
           <h1 class="text-3xl font-semibold">Description</h1>
           <div class="pt-6">
-            <p class="text-gray-600 text-base">blablablabla</p>
+            <p class="text-gray-600 text-base">{{ plantPost.description }}</p>
           </div>
         </div>
       </div>
@@ -228,7 +207,11 @@ export default {
       showModal: false,
       advice: "",
       adviceTitle: "",
+      plantPost: [],
     };
+  },
+  created: function () {
+    this.fetchPlantPost();
   },
   methods: {
     openModal() {
@@ -260,6 +243,59 @@ export default {
         });
       this.closeModal();
     },
+
+    fetchPlantPost: async function () {
+      try {
+        const response = await axios.get(
+          "planPosts/" + this.$route.params.id,
+          this.axios_config
+        );
+        this.plantPost = response.data;
+        console.log(this.plantPost);
+      } catch (error) {
+        console.log(error);
+      }
+    },
   },
 };
 </script>
+
+<!-- address
+: 
+"aaaaaaaaaaaaaa"
+city
+: 
+"aaaaa"
+description
+: 
+"1vsd s sf "
+end_date
+: 
+"2021-06-02T21:33:45.249967"
+id
+: 
+1
+photo
+: 
+{fileName: '1666299726.jpeg', mimeType: 'image/jpeg', size: 395659, id: 'edf279a6-a4d4-466c-a7b4-97d7b7315aba'}
+photo_id
+: 
+"edf279a6-a4d4-466c-a7b4-97d7b7315aba"
+post_code
+: 
+"aaaaa"
+publicationDate
+: 
+"2023-02-13T14:31:42.960+00:00"
+specifications
+: 
+[]
+start_date
+: 
+"2021-06-02T21:33:45.249967"
+surname
+: 
+"aaa"
+title
+: 
+"aaaaaaaaaaaaaaa" -->
